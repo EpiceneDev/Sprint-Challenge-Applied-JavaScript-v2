@@ -17,3 +17,72 @@
 // </div>
 //
 // Create a card for each of the articles and add the card to the DOM.
+axios
+  .get("https://lambda-times-backend.herokuapp.com/articles")
+  .then(response => {
+    let articles = response.data.articles;
+    for (topic in articles) {
+      articles[topic].forEach(article => {
+        entry.appendChild(ArticleCard(article));
+      });
+    }
+  })
+  .catch(err => {
+    console.log("API failed to respond.");
+  });
+
+// function ArticleCard(article) {
+//   const card = document.createElement("div");
+//   const headline = document.createElement("div");
+//   const authorContainer = document.createElement("div");
+//   const authorImageContainer = document.createElement("div");
+//   const authorImage = document.createElement("img");
+//   const authorName = document.createElement("span");
+
+//   card.classList.add("card");
+//   headline.classList.add("headline");
+//   headline.textContent = articles.headline;
+
+//   authorContainer.classList.add("author");
+//   authorImageContainer.classList.add("img-container");
+
+//   authorName.textContent = `By: ${articles.authorName}`;
+//   authorImage.src = articles.authorPhoto;
+
+//   authorContainer.appendChild(authorImageContainer);
+//   authorImageContainer.appendChild(authorImage);
+//   authorContainer.appendChild(authorName);
+
+//   card.appendChild(headline);
+//   card.appendChild(authorContainer);
+
+//   return card;
+// }
+function ArticleCard(article) {
+  const card = document.createElement("div");
+  const headline = document.createElement("div");
+  const authorContainer = document.createElement("div");
+  const authorImageContainer = document.createElement("div");
+  const authorImage = document.createElement("img");
+  const authorName = document.createElement("span");
+
+  card.classList.add("card");
+
+  headline.classList.add("headline");
+  headline.textContent = article.headline;
+
+  authorContainer.classList.add("author");
+  authorImageContainer.classList.add("img-container");
+  authorImage.src = article.authorPhoto;
+  authorName.textContent = `By ${article.authorName}`;
+
+  authorContainer.appendChild(authorImageContainer);
+  authorImageContainer.appendChild(authorImage);
+  authorContainer.appendChild(authorName);
+
+  card.appendChild(headline);
+  card.appendChild(authorContainer);
+
+  return card;
+}
+const entry = document.querySelector(".cards-container");
